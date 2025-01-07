@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+class Solution {
+public:
+
+bool comp(int a, int b){
+    return a<=b;
+}
+    int incremovableSubarrayCount(vector<int>& nums) {
+        int count =0;
+
+        int n= nums.size();
+
+        for(int i=0;i<n;i++){
+
+            for(int j=i;j<n;j++){
+                vector<int>ans;
+                for(int k=0;k<n;k++){
+                    if(k<i || k>j){
+
+                        ans.push_back(nums[k]);
+                    }
+                }
+
+                bool flag = true;
+                for(int m= 1;m<ans.size();m++){
+                    if(ans[m-1]>=ans[m]){
+                        flag = false;
+                        break;
+                    }
+
+                }
+
+                if(flag){
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+};
