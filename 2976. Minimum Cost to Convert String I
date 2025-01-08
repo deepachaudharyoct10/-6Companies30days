@@ -1,0 +1,64 @@
+1 Approach // TLE
+class Solution {
+public:
+    unordered_map<char,list<pair<char, int>>>adj;
+    int n;
+
+    int find_path(char src ,char dest){
+
+        priority_queue<pair<int,char>,vector<pair<int,char>>, greater<pair<int,char>>>pq;
+        vector<int>dist(26,INT_MAX);
+        pq.push({0,src});
+        dist[src-'a']= 0;
+        long long  ans = 0;
+        while(!pq.empty()){
+            auto temp = pq.top();
+            char  node= temp.second;
+            long long val = temp.first;
+            pq.pop();
+            if(node==dest){
+                return val;
+            }
+
+            for(auto it: adj[node]){
+                if(it.second+ val < dist[it.first-'a']){
+                    dist[it.first-'a']= it.second+val;
+                    pq.push({dist[it.first-'a'],it.first});
+                }
+            }
+
+
+        }
+
+        return -1;
+    }
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        
+         n = original.size();
+
+        for(int i=0;i<n;i++){
+            adj[original[i]].push_back({changed[i],cost[i]});
+        }
+
+        long long ans =0;
+        int m= source.size();
+        bool flag = true;
+        for(int i=0;i<m;i++){
+            if(source[i]!=target[i]){
+                int res = find_path(source[i],target[i]);
+                if(res==-1){
+                   flag =  false;
+                    break;
+                }
+                else{
+                    ans += res;
+                }
+            }
+        }
+
+        if(flag==false){
+            return -1;
+        }
+        return ans;
+    }
+};
