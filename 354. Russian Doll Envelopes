@@ -1,0 +1,84 @@
+// class Solution {
+// public:
+
+//     // int ans(vector<vector<int>>&env, int i , int n,int pre, vector<vector<int>>&dp){
+//     //         if(i==n){
+//     //             return 0;
+//     //         }
+
+//     //         if(dp[i][pre+1]!=-1){
+//     //             return dp[i][pre+1];
+//     //         }
+//     //         int take = 0;
+//     //         if(pre==-1 || (env[i][1]>env[pre][1] && env[i][0]>env[pre][0])){
+
+//     //             take = 1+ ans(env, i+1, n, i,dp);
+//     //         }
+           
+//     //         int nottake = ans(env,i+1,n,pre,dp);
+
+//     //         return dp[i][pre+1] = max(take, nottake);
+            
+//     // }
+//     int maxEnvelopes(vector<vector<int>>& envelopes) {
+//     //     int n= envelopes.size();
+//     //     sort(envelopes.begin(),envelopes.end());
+//     //    vector<vector<int>>dp(n,vector<int>(n+1,-1));
+//     //     return ans(envelopes, 0,n,-1,dp);
+
+    
+//     int n= envelopes.size();
+//     if(n==0){
+//         return 0;
+//     }
+//     sort(envelopes.begin(),envelopes.end());
+//     vector<int>dp(n+1,1);
+//     int max= 1;
+//     for(int i=1;i<n;++i){
+//         for(int j =0;j<i;++j){
+//             if(envelopes[i][0]>envelopes[j][0] && envelopes[i][1]>envelopes[j][1] && 1+dp[j]>dp[i]){
+//                 dp[i]= 1+dp[j];
+//             }
+
+//             if(max<dp[i]){
+//                 max = dp[i];
+//             }
+//         }
+//     }
+
+//     return max;
+
+//     }
+// };
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin() , envelopes.end() , [](vector<int>& a , vector<int>& b)
+        {
+            if(a[0] == b[0]) return a[1] > b[1];
+            return a[0] < b[0];
+        });
+        vector<int> second;
+        for(auto& it : envelopes)
+        {
+            second.push_back(it[1]);
+        }
+
+        vector<int> lis;
+        lis.push_back(second[0]);
+        for(int i = 1 ; i < second.size() ; i++)
+        {
+            if(lis.back() < second[i])
+            {
+                lis.push_back(second[i]);
+            }
+            else
+            {
+                auto it = lower_bound(lis.begin() , lis.end() , second[i]);
+                *it = second[i];
+            }
+        }
+        return lis.size();
+    }
+};
