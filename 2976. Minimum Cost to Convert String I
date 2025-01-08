@@ -28,6 +28,43 @@ public:
             }
 
 
+
+// second approach
+  long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+               vector<vector<int>> mat(26, vector<int>(26, 1e9+7));
+            int n= original.size();
+            for(int i=0;i<n;i++){
+                mat[original[i] - 'a'][changed[i] - 'a'] = min(cost[i], mat[original[i] - 'a'][changed[i] - 'a']);
+
+            }
+
+            for(int k=0;k<26;k++){
+                for(int i=0;i<26;i++){
+                    for(int j=0;j<26;j++){
+                        mat[i][j]= min(mat[i][j], mat[i][k]+mat[k][j]);
+                    }
+                }
+            }
+
+
+            int m=source.size();
+            long long ans =0;
+            bool flag = true;
+            for(int i=0;i<m;i++){
+                if(source[i]!=target[i]){
+                    long long val = mat[source[i]-'a'][target[i]-'a'];
+                    if(val==1e9+7){
+                        return -1;
+                    }
+                    ans += val;
+                }
+            }
+
+            return ans;
+          }
+};
+
+
         }
 
         return -1;
