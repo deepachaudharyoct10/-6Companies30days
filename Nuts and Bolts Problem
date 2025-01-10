@@ -1,0 +1,14 @@
+void matchPairs(int n, char nuts[], char bolts[]) {
+        // code here
+        unordered_map<char,int>mp = {{'!',1},{'#',2},{'$',3},{'%',4},{'&'
+        ,5},{'*',6}
+        ,{'?',7},{'@',8},{'^',9}};
+        
+        sort(nuts,nuts+n,[&mp](char a,char b){
+           return  mp[a] < mp[b];
+        });
+        
+        sort(bolts,bolts+n,[&mp](char a,char b){
+           return  mp[a] < mp[b];
+        });
+    }
