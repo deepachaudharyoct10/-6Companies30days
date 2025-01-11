@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+int solve(vector<int>&prices, int buy, int i, int time,vector<vector<vector<int>>>&dp){
+    if(i>=prices.size() || time==0){
+        return 0;
+    }
+    int profit=0;
+
+    if(dp[i][buy][time]!=-1){
+        return dp[i][buy][time];
+    }
+
+    if(buy){
+        int ans1= solve(prices, 0,i+1, time,dp)-prices[i];
+        int skip= solve(prices, 1, i+1,time,dp);
+        profit= max(ans1, skip);
+    }
+    else{
+        int ans2= solve(prices, 1,i+1,time-1,dp)+prices[i];
+        int skip = solve(prices,0,i+1,time,dp);
+       profit= max(ans2, skip);
+    }
+    dp[i][buy][time]=profit;
+    return profit;
+}
+    int maxProfit(int k, vector<int>& prices) {
+         vector<vector<vector<int>>>dp(prices.size(), vector<vector<int>>(2,vector<int>(k+1,-1)));
+        int ans = solve(prices,true, 0, k, dp);
+        return ans;
+        
+    }
+};
