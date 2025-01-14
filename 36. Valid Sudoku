@@ -1,0 +1,62 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        int n= board.size();
+        int m= board.size();
+
+        for(int i=0;i<n;i++){
+            unordered_map<char,int>mp;
+            for(int j=0;j<m;j++){
+                if(board[i][j]!='.'){
+                    if(mp.find(board[i][j])!=mp.end()){
+                        return false;
+                    }
+                    else{
+                          mp[board[i][j]]++;
+                    }
+
+                }
+               
+          
+                
+            }
+        }
+
+         for(int i=0;i<m;i++){
+            unordered_map<char,int>mp;
+            for(int j=0;j<n;j++){
+                if(board[j][i]!='.'){
+                    if(mp.find(board[j][i])!=mp.end()){
+                        return false;
+                    }
+                    else{
+                         mp[board[j][i]]++;
+                    }
+                }
+                
+   
+            }
+        }
+
+
+        for (int blockRow = 0; blockRow < 3; blockRow++) {
+            for (int blockCol = 0; blockCol < 3; blockCol++) {
+                unordered_map<char, int> mp;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        int row = blockRow * 3 + i;
+                        int col = blockCol * 3 + j;
+                        if (board[row][col] != '.') {
+                            if (mp.find(board[row][col]) != mp.end()) {
+                                return false;
+                            }
+                            mp[board[row][col]]++;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+
+    }
+};
