@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+    vector<long long>power;
+
+    unordered_map<string,int>mp;
+
+    int solve(int i, int back, int k ,int jump){
+
+        if(i>k+1){
+            return 0;
+        }
+
+         int ways = 0;
+
+         string st =to_string(i)+'-'+to_string(back) +'_' + to_string(jump);
+
+        if(mp.find(st)!=mp.end()){
+            return mp[st];
+        }
+
+        if(i==k){
+            ways += 1;
+        }
+
+       
+
+        if(back==1){
+            ways += solve(i-1,0,k,jump);
+        }
+
+        ways += solve(i+power[jump],1,k,jump+1);
+
+        return mp[st]=  ways;
+    }
+    int waysToReachStair(int k) {
+        power.resize(32);
+        for(int i=0;i<=31;i++){
+            power[i]= pow(2,i);
+        }
+        return solve(1,1,k,0);
+    }
+};
