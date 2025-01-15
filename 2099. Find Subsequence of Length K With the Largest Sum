@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> maxSubsequence(vector<int>& nums, int k) {
+        priority_queue<pair<int,int>>pq;
+        for(int i=0;i<nums.size();i++){
+            pq.push({nums[i],i});
+
+        }
+
+        unordered_map<int,int>mp;
+        int m=k;
+        while(m--){
+            auto temp = pq.top();
+            pq.pop();
+            int val = temp.first;
+            int idx= temp.second;
+
+            mp[idx]=val;
+        }
+
+        vector<pair<int, int>> vec(mp.begin(), mp.end());
+
+    sort(vec.begin(), vec.end(), [&mp](const auto& a, const auto& b) {
+        return a.first< b.first;
+    });
+
+    vector<int>ans;
+    for(auto it: vec){
+        ans.push_back(it.second);
+    }
+
+        return ans;
+
+
+
+
+    }
+};
