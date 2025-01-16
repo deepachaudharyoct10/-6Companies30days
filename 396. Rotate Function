@@ -1,0 +1,30 @@
+//brute force 
+
+class Solution {
+public:
+    int maxRotateFunction(vector<int>& nums) {
+        int maxi =0;
+        int n= nums.size();
+        int j =1;
+        for(int i=0;i<n;i++){
+            maxi += i*nums[i];
+        }
+        while(j<n){
+        int k = nums[n-1];
+        for(int i=n-1;i>0;i--){
+           
+            nums[i]= nums[i-1];
+        }
+        nums[0]= k;
+        int product= 0;
+        for(int i =0;i<n;i++){
+            product += i*nums[i];
+        }
+        maxi = max(maxi,product);
+        j++;
+        }
+
+        return maxi;
+
+    }
+};
